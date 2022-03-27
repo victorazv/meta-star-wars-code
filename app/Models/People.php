@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class People extends Model
 {
@@ -28,4 +29,7 @@ class People extends Model
         'url',
     ];
 
+    public function getPerson($person){
+        return People::where("name", "=", $person)->first();
+    }
 }

@@ -11,7 +11,7 @@ class PeopleController extends Controller
 
     public function crawler(){
         $next_page = $this->searchData('https://swapi.dev/api/people/');
-
+        // $next_page = null; // Linha par salvar somente 10 dados no teste
         while ($next_page){
             $next_page = $this->searchData($next_page);
         }
@@ -54,25 +54,16 @@ class PeopleController extends Controller
 
     public function insertPerson($person){
         $row = new People();
+        $row->fill((array)$person);
 
-        $row->name = $person->name;
-        $row->height = $person->height;
-        $row->mass = $person->mass;
-        $row->hair_color = $person->hair_color;
-        $row->skin_color = $person->skin_color;
-        $row->eye_color = $person->eye_color;
-        $row->birth_year = $person->birth_year;
-        $row->gender = $person->gender;
-        $row->homeworld = $person->homeworld;
-        $row->films = $person->films;
-        $row->species = $person->species;
-        $row->vehicles = $person->vehicles;
-        $row->starships = $person->starships;
-        $row->created = $person->created;
-        $row->edited = $person->edited;
-        $row->url = $person->url;
-
-        $row->save((array)$person);
+        //$person_obj = new People();
+        //$find_person = $person_obj->getPerson($row->name);
+        $find_person = People::getPerson($row->name);
+        //$find_person =  People::where("name", "=", $person->name)->first();
+        //dd($find_person);
+        if(!$find_person){
+            $row->save();
+        }
     }
     public function index(Request $request){
         $registro = People::whereRaw("UPPER(name) LIKE '%".$request->person."%'")->firstOrFail();
