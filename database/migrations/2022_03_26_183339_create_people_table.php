@@ -18,21 +18,21 @@ class CreatePeopleTable extends Migration
             $table->timestamps();
 
             $table->string('name', '200');
-            $table->string('height', '5');
-            $table->string('mass', '5');
-            $table->string('hair_color', '25');
-            $table->string('skin_color', '25');
-            $table->string('eye_color', '25');
-            $table->string('birth_year', '10');
-            $table->string('gender', '10');
-            $table->string('homeworld', '250')->comment('Planet URL');
-            $table->text('films')->comment('URLs');
-            $table->text('species')->comment('URLs');
-            $table->text('vehicles')->comment('URLs');
-            $table->text('starships')->comment('URLs');
-            $table->string('created', '100');
-            $table->string('edited', '100');
-            $table->string('url', '100');
+            $table->string('height', '5')->nullable();
+            $table->string('mass', '5')->nullable();
+            $table->string('hair_color', '25')->nullable();
+            $table->string('skin_color', '25')->nullable();
+            $table->string('eye_color', '25')->nullable();
+            $table->string('birth_year', '10')->nullable();
+            $table->string('gender', '10')->nullable();
+            $table->string('homeworld', '250')->comment('Planet URL')->nullable();
+            $table->text('films')->comment('URLs')->nullable();
+            $table->text('species')->comment('URLs')->nullable();
+            $table->text('vehicles')->comment('URLs')->nullable();
+            $table->text('starships')->comment('URLs')->nullable();
+            $table->string('created', '100')->nullable();
+            $table->string('edited', '100')->nullable();
+            $table->string('url', '100')->nullable();
         });
     }
 
