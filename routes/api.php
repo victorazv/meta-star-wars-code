@@ -13,11 +13,11 @@ use App\Http\Controllers\PeopleController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['prefix' => 'people'], function (){
-    Route::get('/', [PeopleController::class, 'index']);
+Route::group(['prefix' => 'people1'], function (){
+    Route::get('/{person}', [PeopleController::class, 'index']);
     Route::get('/crawler', [PeopleController::class, 'crawler']);
 });
-
+Route::get('people/{person}', [PeopleController::class, 'index'])->middleware('log.route');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -74,7 +74,8 @@ class PeopleController extends Controller
 
         $row->save((array)$person);
     }
-    public function index(){
-        return json_encode('a');
+    public function index(Request $request){
+        $registro = People::whereRaw("UPPER(name) LIKE '%".$request->person."%'")->firstOrFail();
+        return $registro;
     }
 }
