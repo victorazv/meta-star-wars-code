@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\PeopleRequestHistoric;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\People;
@@ -56,17 +57,23 @@ class PeopleController extends Controller
         $row = new People();
         $row->fill((array)$person);
 
-        //$person_obj = new People();
-        //$find_person = $person_obj->getPerson($row->name);
         $find_person = People::getPerson($row->name);
-        //$find_person =  People::where("name", "=", $person->name)->first();
-        //dd($find_person);
         if(!$find_person){
             $row->save();
         }
     }
     public function index(Request $request){
-        $registro = People::whereRaw("UPPER(name) LIKE '%".$request->person."%'")->firstOrFail();
-        return $registro;
+
+        $people =  People::getPersonByStr($request->person);
+
+        foreach ($people as $person){
+            $person_historic            = new PeopleRequestHistoric();
+            $person_historic->id_people = (isset($person->id) ? $person->id : null);
+            $person_historic->name      = $request->person;
+            $person_historic->save();
+        }
+
+        return (count($people) > 0 ? $people : ["message" => 'Registro não encontrado']);
     }
+
 }

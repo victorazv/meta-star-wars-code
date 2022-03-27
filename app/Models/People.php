@@ -32,4 +32,8 @@ class People extends Model
     public function getPerson($person){
         return People::where("name", "=", $person)->first();
     }
+
+    public function getPersonByStr($person){
+        return People::whereRaw("UPPER(name) LIKE '%".$person."%'")->get();
+    }
 }

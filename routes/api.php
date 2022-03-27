@@ -18,9 +18,11 @@ Route::get('crawler', [PeopleController::class, 'crawler'])->middleware('log.rou
 Route::get('people/{person}', [PeopleController::class, 'index'])->middleware('log.route');
 
 Route::group(['prefix' => 'sw'], function (){
+
     Route::get('teste', function (){
         return json_encode('Victor');
     })->middleware('log.route');
+
     Route::get('people/{person}', [PeopleController::class, 'index'])->middleware('log.route');
 });
 
