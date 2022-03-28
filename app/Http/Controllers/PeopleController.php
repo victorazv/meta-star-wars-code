@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\PeopleRequestHistoric;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\People;
@@ -62,28 +63,24 @@ class PeopleController extends Controller
             $row->save();
         }
     }
-    public function index(Request $request){
 
-        $people =  People::getPersonByStr($request->person);
+    public function extractIds($people){
+        $arr_ids = array();
 
-        if (count($people) == 0){
-            $person_historic            = new PeopleRequestHistoric();
-            $person_historic->id_people = null;
-            $person_historic->name      = $request->person;
-            $person_historic->save();
-
-            $people = ["message" => 'Registro não encontrado'];
-        }
-        else{
-            foreach ($people as $person){
-                $person_historic            = new PeopleRequestHistoric();
-                $person_historic->id_people = $person->id;
-                $person_historic->name      = $request->person;
-                $person_historic->save();
-            }
+        foreach ($people as $person){
+            $arr_ids[] = $person->id;
         }
 
-        return $people;
+        return $arr_ids;
     }
 
+    public function index(Request $request){
+
+        $people     = People::getPersonByStr($request->person);
+        $ids_people = $this->extractIds($people);
+
+        Artisan::call('historic:insert', ['people' => $ids_people, 'str_search' => $request->person]);
+
+        return (count($people) > 0 ? $people : ["message" => "Registros não encontrados"]);
+    }
 }
