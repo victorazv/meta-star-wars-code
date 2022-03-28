@@ -14,21 +14,13 @@ use App\Http\Controllers\PeopleController;
 |
 */
 
-Route::get('crawler', [PeopleController::class, 'crawler'])->middleware('log.route');
-Route::get('people/{person}', [PeopleController::class, 'index'])->middleware('log.route');
-
-Route::group(['prefix' => 'sw'], function (){
-
-    Route::get('teste', function (){
-        return json_encode('Victor');
-    })->middleware('log.route');
-
-    Route::get('people/{person}', [PeopleController::class, 'index'])->middleware('log.route');
+Route::middleware('log.route')->group(function () {
+    Route::get('crawler' , [PeopleController::class, 'crawler']);
+    Route::get('{person}', [PeopleController::class, 'index']);
 });
 
-//Route::get('crawler', [PeopleController::class, 'crawler']);
-//Route::get('people/{person}', [PeopleController::class, 'index']);//->middleware('log.route');
-
+/*
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+*/
