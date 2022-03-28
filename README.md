@@ -1,3 +1,10 @@
+No projeto, tem uma collection do Postman com as requisições. <br/>
+
+A rota Crawler, captura os dados e persiste no banco. <br/>
+A rota de busca, retorna o que foi encontrado e salva, conforme requisitado. <br/>
+
+------------------
+
 Objetivo: Implementar uma API que faça a consulta de dados de um personagem do Star Wars.
 Informações Adicionais:
 <br/>
