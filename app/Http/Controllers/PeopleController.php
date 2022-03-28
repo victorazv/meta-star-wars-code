@@ -66,14 +66,24 @@ class PeopleController extends Controller
 
         $people =  People::getPersonByStr($request->person);
 
-        foreach ($people as $person){
+        if (count($people) == 0){
             $person_historic            = new PeopleRequestHistoric();
-            $person_historic->id_people = (isset($person->id) ? $person->id : null);
+            $person_historic->id_people = null;
             $person_historic->name      = $request->person;
             $person_historic->save();
+
+            $people = ["message" => 'Registro não encontrado'];
+        }
+        else{
+            foreach ($people as $person){
+                $person_historic            = new PeopleRequestHistoric();
+                $person_historic->id_people = $person->id;
+                $person_historic->name      = $request->person;
+                $person_historic->save();
+            }
         }
 
-        return (count($people) > 0 ? $people : ["message" => 'Registro não encontrado']);
+        return $people;
     }
 
 }
